@@ -348,7 +348,7 @@ Open **[http://localhost:3000](http://localhost:3000)** in an **incognito window
 
 ```bash
 cd a2a-agent
-docker build -t morphic-ui-agent .
+docker build -t claude-canvas-agent .
 docker run -p 10002:10002 -e ANTHROPIC_API_KEY=sk-ant-... morphic-ui-agent
 ```
 
