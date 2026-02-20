@@ -366,22 +366,6 @@ docker run -p 10002:10002 -e ANTHROPIC_API_KEY=sk-ant-... morphic-ui-agent
 
 ---
 
-## 🏆 Hackathon Judging Alignment
-
-| Criterion | How We Address It |
-|---|---|
-| **Working Prototype & Execution** | Fully functional end-to-end: prompt → Claude → A2UI JSON → live UI → refinement loop. Schema validation + auto-retry ensures stable output. |
-| **Interface Novelty & Playfulness** | A blank canvas that morphs into live interactive UI on demand. Horizontal version timeline as "UI version control." No chat window, no templates — pure generative surface. |
-| **Theme Alignment: Generative Interfaces** | Claude *is* the UI — every component, layout, and data binding is agent-authored at runtime. The interface itself is the innovation. |
-| **Leveraging Claude's Capabilities** | Complex nested A2UI JSON schema requires Claude's precise instruction-following. Multi-turn conversation history enables coherent refinement. Auto-retry with targeted schema errors uses Claude's error-correction strength. |
-
----
-
-## 👥 Team
-
-Built at the **AI Tinkerers "AI Interfaces" Hackathon**, February 21, 2026, hosted at Betaworks, New York City.
-
----
 
 ## 📄 License
 
