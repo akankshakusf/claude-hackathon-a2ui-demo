@@ -19,7 +19,7 @@ export function useSendMessage() {
   const sendMessage = useCallback(
     async (message: string) => {
       // Open the chat popup when sending a message
-      config?.setModalOpen(true);
+      config?.setModalOpen?.(true);
       // Add the user message to the chat
       agent.addMessage({ id: randomUUID(), role: "user", content: message });
       try {
