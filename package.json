@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@a2ui/lit": "^0.8.1",
-    "next": "15.3.0",
+    "next": "^15.5.12",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
