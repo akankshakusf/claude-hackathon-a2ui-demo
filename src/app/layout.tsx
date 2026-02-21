@@ -3,7 +3,7 @@ import "./globals.css";
 import "./a2ui-theme.css";
 
 export const metadata: Metadata = {
-  title: "Morphic UI — Agent-Driven Generative Interfaces",
+  title: "Claude Canvas — Agent-Driven Generative Interfaces",
   description:
     "Describe any interface. Claude reasons about your intent and assembles a live, interactive UI using A2A protocol and A2UI declarative JSON.",
 };

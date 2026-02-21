@@ -1,3 +1,5 @@
+//src\app\api\generate\route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 
 const A2A_AGENT_URL = process.env.A2A_AGENT_URL || "http://localhost:10002";

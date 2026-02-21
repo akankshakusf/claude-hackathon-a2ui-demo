@@ -54,8 +54,8 @@ curl http://localhost:10002/.well-known/agent.json
 ## Environment Variables
 
 ```bash
-OPENAI_API_KEY=sk-...        # Required for LiteLLM
-LITELLM_MODEL=openai/gpt-5.2  # Optional, defaults to gpt-5.2
+ANTHROPIC_API_KEY=sk-...        # Required for LiteLLM
+LITELLM_MODEL=anthropic/claude-sonnet-4-5  # Optional, defaults to sonnet
 ```
 
 ## UI Generation
