@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y curl gcc && rm -rf /var/lib/apt/lists/*
 # Copy all project files
 COPY . .
 
-# Install package (includes dependencies from pyproject.toml)
-RUN pip install --no-cache-dir .
+# Install dependencies directly — bypasses pyproject.toml
+RUN pip install --no-cache-dir a2a-sdk anthropic jsonschema python-dotenv uvicorn starlette click
 
 # Expose port (Railway injects PORT)
 EXPOSE 10002
