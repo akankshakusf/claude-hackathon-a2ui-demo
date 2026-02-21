@@ -1,13 +1,8 @@
 # prompt_builder.py
 """
 Prompt builder for the A2UI UI Generator agent.
-
-This module provides the A2UI JSON schema and example templates
-that the LLM uses to generate declarative UI responses for any type of UI.
 """
 
-# The A2UI schema defines the structure of A2UI messages for rendering dynamic UIs.
-# This schema supports text-only components (no images) for flexibility.
 A2UI_SCHEMA = r'''
 {
   "title": "A2UI Message Schema",
@@ -335,8 +330,7 @@ A2UI_SCHEMA = r'''
 }
 '''
 
-# Generic UI examples for the A2UI agent
-# These templates show how to build forms, lists, cards, and confirmations
+# NOTE: Examples use fictional company names to teach Claude to always invent brand names.
 UI_EXAMPLES = """
 ---BEGIN FORM_EXAMPLE---
 [
@@ -344,8 +338,9 @@ UI_EXAMPLES = """
   {{ "surfaceUpdate": {{
     "surfaceId": "form-surface",
     "components": [
-      {{ "id": "form-column", "component": {{ "Column": {{ "children": {{ "explicitList": ["form-title", "name-field", "email-field", "message-field", "submit-button"] }} }} }} }},
-      {{ "id": "form-title", "component": {{ "Text": {{ "usageHint": "h2", "text": {{ "literalString": "Contact Us" }} }} }} }},
+      {{ "id": "form-column", "component": {{ "Column": {{ "children": {{ "explicitList": ["company-name", "form-title", "name-field", "email-field", "message-field", "submit-button"] }} }} }} }},
+      {{ "id": "company-name", "component": {{ "Text": {{ "usageHint": "h1", "text": {{ "literalString": "NeuralPath AI" }} }} }} }},
+      {{ "id": "form-title", "component": {{ "Text": {{ "usageHint": "h3", "text": {{ "literalString": "Contact Us" }} }} }} }},
       {{ "id": "name-field", "component": {{ "TextField": {{ "label": {{ "literalString": "Your Name" }}, "text": {{ "path": "name" }}, "textFieldType": "shortText" }} }} }},
       {{ "id": "email-field", "component": {{ "TextField": {{ "label": {{ "literalString": "Email Address" }}, "text": {{ "path": "email" }}, "textFieldType": "shortText" }} }} }},
       {{ "id": "message-field", "component": {{ "TextField": {{ "label": {{ "literalString": "Message" }}, "text": {{ "path": "message" }}, "textFieldType": "longText" }} }} }},
@@ -371,8 +366,9 @@ UI_EXAMPLES = """
   {{ "surfaceUpdate": {{
     "surfaceId": "list-surface",
     "components": [
-      {{ "id": "list-column", "component": {{ "Column": {{ "children": {{ "explicitList": ["list-title", "item-list"] }} }} }} }},
-      {{ "id": "list-title", "component": {{ "Text": {{ "usageHint": "h2", "text": {{ "literalString": "Todo List" }} }} }} }},
+      {{ "id": "list-column", "component": {{ "Column": {{ "children": {{ "explicitList": ["company-name", "list-title", "item-list"] }} }} }} }},
+      {{ "id": "company-name", "component": {{ "Text": {{ "usageHint": "h1", "text": {{ "literalString": "Synapse Labs" }} }} }} }},
+      {{ "id": "list-title", "component": {{ "Text": {{ "usageHint": "h3", "text": {{ "literalString": "Project Checklist" }} }} }} }},
       {{ "id": "item-list", "component": {{ "List": {{ "direction": "vertical", "children": {{ "template": {{ "componentId": "item-row-template", "dataBinding": "/items" }} }} }} }} }},
       {{ "id": "item-row-template", "component": {{ "Row": {{ "alignment": "center", "children": {{ "explicitList": ["item-icon", "item-text"] }} }} }} }},
       {{ "id": "item-icon", "component": {{ "Icon": {{ "name": {{ "path": "icon" }} }} }} }},
@@ -400,7 +396,8 @@ UI_EXAMPLES = """
     "surfaceId": "card-surface",
     "components": [
       {{ "id": "profile-card", "component": {{ "Card": {{ "child": "card-content" }} }} }},
-      {{ "id": "card-content", "component": {{ "Column": {{ "alignment": "center", "children": {{ "explicitList": ["profile-icon", "profile-name", "profile-title", "divider1", "contact-row"] }} }} }} }},
+      {{ "id": "card-content", "component": {{ "Column": {{ "alignment": "center", "children": {{ "explicitList": ["company-name", "profile-icon", "profile-name", "profile-title", "divider1", "contact-row"] }} }} }} }},
+      {{ "id": "company-name", "component": {{ "Text": {{ "usageHint": "h1", "text": {{ "literalString": "Vertex Mind" }} }} }} }},
       {{ "id": "profile-icon", "component": {{ "Icon": {{ "name": {{ "literalString": "accountCircle" }} }} }} }},
       {{ "id": "profile-name", "component": {{ "Text": {{ "usageHint": "h2", "text": {{ "path": "name" }} }} }} }},
       {{ "id": "profile-title", "component": {{ "Text": {{ "usageHint": "caption", "text": {{ "path": "title" }} }} }} }},
@@ -434,9 +431,10 @@ UI_EXAMPLES = """
     "surfaceId": "confirmation-surface",
     "components": [
       {{ "id": "confirmation-card", "component": {{ "Card": {{ "child": "confirmation-column" }} }} }},
-      {{ "id": "confirmation-column", "component": {{ "Column": {{ "alignment": "center", "children": {{ "explicitList": ["confirm-icon", "confirm-title", "divider1", "confirm-message", "confirm-details"] }} }} }} }},
+      {{ "id": "confirmation-column", "component": {{ "Column": {{ "alignment": "center", "children": {{ "explicitList": ["company-name", "confirm-icon", "confirm-title", "divider1", "confirm-message", "confirm-details"] }} }} }} }},
+      {{ "id": "company-name", "component": {{ "Text": {{ "usageHint": "h1", "text": {{ "literalString": "Orbit Systems" }} }} }} }},
       {{ "id": "confirm-icon", "component": {{ "Icon": {{ "name": {{ "literalString": "check" }} }} }} }},
-      {{ "id": "confirm-title", "component": {{ "Text": {{ "usageHint": "h2", "text": {{ "literalString": "Success!" }} }} }} }},
+      {{ "id": "confirm-title", "component": {{ "Text": {{ "usageHint": "h2", "text": {{ "literalString": "Confirmed!" }} }} }} }},
       {{ "id": "divider1", "component": {{ "Divider": {{}} }} }},
       {{ "id": "confirm-message", "component": {{ "Text": {{ "text": {{ "path": "message" }} }} }} }},
       {{ "id": "confirm-details", "component": {{ "Text": {{ "usageHint": "caption", "text": {{ "path": "details" }} }} }} }}
@@ -464,11 +462,11 @@ def get_ui_prompt(base_url: str, examples: str) -> str:
 
     Your response MUST have exactly two parts separated by ---a2ui_JSON---
 
-    PART 1: One sentence of conversational text (e.g. "Here is your contact form.")
+    PART 1: One sentence of conversational text (e.g. "Here is the NeuralPath AI contact form.")
     PART 2: The raw A2UI JSON array — NO markdown, NO code fences, NO ```json
 
     Example of correct output format:
-    Here is your contact form.
+    Here is the NeuralPath AI contact form.
     ---a2ui_JSON---
     [
       {{"beginRendering": {{"surfaceId": "s1", "root": "col1"}}}},
@@ -482,6 +480,9 @@ def get_ui_prompt(base_url: str, examples: str) -> str:
     4. ALWAYS start with a beginRendering message
     5. ALWAYS follow with a surfaceUpdate message
     6. ALWAYS end with a dataModelUpdate message
+    7. ALWAYS invent a specific fictional company/brand name and use it as the h1 heading.
+       NEVER use generic titles like "Join Our Team" or "Contact Us" as the h1.
+       Examples: "NeuralPath AI", "Synapse Labs", "Vertex Mind", "Orbit Systems"
 
     --- UI TEMPLATE DEFAULTS ---
     Use these examples as starting patterns for common UI types:
@@ -530,9 +531,6 @@ def get_ui_prompt(base_url: str, examples: str) -> str:
 
 
 def get_text_prompt() -> str:
-    """
-    Constructs the prompt for a text-only agent response.
-    """
     return """
     You are a helpful UI assistant. Your final output MUST be a text response.
 
@@ -546,7 +544,6 @@ def get_text_prompt() -> str:
 
 
 if __name__ == "__main__":
-    # Example usage
     my_base_url = "http://localhost:10002"
     ui_prompt = get_ui_prompt(my_base_url, UI_EXAMPLES)
     print(ui_prompt[:500] + "...")

@@ -74,7 +74,7 @@ function A2UIRenderer({ messages }: { messages: Record<string, unknown>[] }) {
             Divider: {},
             CheckBox: {},
             Slider: {},
-            MultipleChoice: {},
+            MultipleChoice: { container: {}, label: {}, element: { display: "block", width: "100%", marginBottom: "8px" } },
             DateTimeInput: {},
             Tabs: {},
             Modal: {},

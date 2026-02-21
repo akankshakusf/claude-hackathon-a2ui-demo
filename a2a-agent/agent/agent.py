@@ -29,21 +29,26 @@ One short sentence describing the UI.
 [A2UI JSON array here]
 
 RULES:
+RULES:
+0. COMPANY NAME — MANDATORY: The very first component in EVERY UI must be an h1 Text with an invented fictional company name. Examples: "Synapse Labs", "Cortex AI", "Luminary Systems", "Apex Neural". NEVER use generic text like "AI Startup" or "Join Our Team" as the h1.
+00. FORBIDDEN h1 values: "AI Startup", "Our Company", "Join Our Team", "Contact Us", "Application Form", "Dashboard". These are BANNED as h1 text.
 1. The delimiter ---a2ui_JSON--- must appear exactly once
 2. After the delimiter, output ONLY a raw JSON array — no markdown, no backticks, no ```json
 3. The array must start with [ and end with ]
 4. Always include these 3 messages in order: beginRendering, surfaceUpdate, dataModelUpdate
 5. When refining an existing UI, keep the SAME surfaceId and modify/extend the components as requested.
    Re-output the COMPLETE updated UI — all components including unchanged ones.
+6. ALWAYS invent a specific fictional company/brand name and use it prominently as the UI title. NEVER use generic titles like "Join Our Team" or "Contact Us" alone. Examples: "NeuralPath AI — Join Our Team", "Synapse Labs Application", "Vertex Mind — New York". Pick a creative name and make it the h1 heading.
 
 CORRECT FORMAT EXAMPLE:
-Here is your contact form.
+Here is the NeuralPath AI contact form.
 ---a2ui_JSON---
 [
   {{"beginRendering": {{"surfaceId": "form-surface", "root": "form-col", "styles": {{"primaryColor": "#9B8AFF", "font": "Plus Jakarta Sans"}}}}}},
   {{"surfaceUpdate": {{"surfaceId": "form-surface", "components": [
-    {{"id": "form-col", "component": {{"Column": {{"children": {{"explicitList": ["title", "name-field", "submit-btn"]}}}}}}}},
-    {{"id": "title", "component": {{"Text": {{"usageHint": "h2", "text": {{"literalString": "Contact Us"}}}}}}}},
+    {{"id": "form-col", "component": {{"Column": {{"children": {{"explicitList": ["title", "subtitle", "name-field", "submit-btn"]}}}}}}}},
+    {{"id": "title", "component": {{"Text": {{"usageHint": "h1", "text": {{"literalString": "NeuralPath AI"}}}}}}}},
+    {{"id": "subtitle", "component": {{"Text": {{"usageHint": "h3", "text": {{"literalString": "Contact Us"}}}}}}}},
     {{"id": "name-field", "component": {{"TextField": {{"label": {{"literalString": "Name"}}, "text": {{"path": "name"}}, "textFieldType": "shortText"}}}}}},
     {{"id": "submit-btn", "component": {{"Button": {{"child": "submit-text", "primary": true, "action": {{"name": "submit_form", "context": [{{"key": "name", "value": {{"path": "name"}}}}]}}}}}}}},
     {{"id": "submit-text", "component": {{"Text": {{"text": {{"literalString": "Submit"}}}}}}}}
@@ -54,6 +59,8 @@ Here is your contact form.
 AVAILABLE COMPONENT TYPES (use ONLY these):
 - Text: {{"Text": {{"text": {{"literalString": "..."}}, "usageHint": "h1|h2|h3|h4|h5|caption|body"}}}}
 - TextField: {{"TextField": {{"label": {{"literalString": "..."}}, "text": {{"path": "..."}}, "textFieldType": "shortText|longText|number|date|obscured"}}}}
+- MultipleChoice: Native dropdown/select. {{"MultipleChoice": {{"description": {{"literalString": "Years of Experience"}}, "selections": {{"path": "experience"}}, "options": [{{"label": {{"literalString": "0-1 years"}}}}, {{"label": {{"literalString": "1-3 years"}}}}, {{"label": {{"literalString": "3-5 years"}}}}, {{"label": {{"literalString": "5+ years"}}}}]}}}}
+  Use this for ANY selection/dropdown field. It renders as a native select element.
 - Button: {{"Button": {{"child": "btn-text-id", "primary": true, "action": {{"name": "action_name", "context": []}}}}}}
 - Column: {{"Column": {{"children": {{"explicitList": ["id1", "id2"]}}}}}}
 - Row: {{"Row": {{"children": {{"explicitList": ["id1", "id2"]}}, "alignment": "center"}}}}
@@ -115,8 +122,15 @@ class UIGeneratorAgent:
             if role in ("user", "assistant") and content:
                 messages.append({"role": role, "content": content})
 
-        # Add the current user query
-        messages.append({"role": "user", "content": query})
+        # Force company name invention at the query level — most reliable injection point
+        enhanced_query = (
+            f"{query}\n\n"
+            f"IMPORTANT: You MUST invent a specific fictional company name and use it as the h1 heading. "
+            f"Do NOT use 'AI Startup', 'Our Company', 'Join Our Team', or any generic title. "
+            f"Pick something creative like 'Synapse Labs', 'Cortex AI', 'Luminary Systems', 'Apex Neural'. "
+            f"The h1 MUST be the invented company name."
+        )
+        messages.append({"role": "user", "content": enhanced_query})
         return messages
 
     async def stream(self, query: str, session_id: str, conversation_history: list = None) -> AsyncIterable[dict[str, Any]]:
